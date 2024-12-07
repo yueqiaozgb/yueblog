@@ -2,7 +2,7 @@ spring:
   application:
     name: yueblog
   profiles:
-    active: prod
+    active: dev
   datasource:
     druid:
       # 初始连接数
@@ -48,5 +48,38 @@ spring:
         reset-enable: false
         login-username: druid
         login-password: druid
-        allow: 127.0.0.1
-        deny:
+
+#mybatis-plus配置
+mybatis-plus:
+  #配置Mapper映射文件
+  mapper-locations: classpath:/mappers/*.xml
+  # 配置Mybatis数据返回类型别名（默认别名为类名）
+  type-aliases-package: top.yueqiao.yueblog.entity
+  configuration:
+    # 是否开启自动驼峰命名规则（camel case）映射，即从经典数据库列名 A_COLUMN（下划线命名） 到经典 Java 属性名 aColumn（驼峰命名） 的类似映射
+    map-underscore-to-camel-case: true
+    # 全局地开启或关闭配置文件中的所有映射器已经配置的任何缓存，默认为 true
+    cache-enabled: true
+    #懒加载
+    aggressive-lazy-loading: true
+    #none：不启用自动映射 partial：只对非嵌套的 resultMap 进行自动映射 full：对所有的 resultMap 都进行自动映射
+    auto-mapping-behavior: partial
+    #none：不做任何处理 (默认值)warning：以日志的形式打印相关警告信息 failing：当作映射失败处理，并抛出异常和详细信息
+    auto-mapping-unknown-column-behavior: none
+    #如果查询结果中包含空值的列，则 MyBatis 在映射的时候，会不会映射这个字段
+    call-setters-on-nulls: true
+    #这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #是否允许映射结果为多个数据集
+    multiple-result-sets-enabled: false
+  global-config:
+    db-config:
+      #逻辑已删除值(逻辑删除下有效)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+      #逻辑未删除值(逻辑删除下有效)
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+
+#配置控制台打印日志Debug
+logging:
+  level:
+    top.yueqiao.yueblog.mapper: debug
